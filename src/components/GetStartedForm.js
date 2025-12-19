@@ -17,7 +17,7 @@ export default function GetStartedForm() {
   };
 
   const handleSubmit = async () => {
-    const res = await fetch("http://localhost:8000/create-chatbot", {
+    const res = await fetch("https://ai-chatbot-backend-v82w.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),

@@ -3,7 +3,7 @@
 export default function Pricing() {
 
   const pay = async (amount) => {
-    const res = await fetch("http://localhost:8000/create-order", {
+    const res = await fetch("https://ai-chatbot-backend-v82w.onrender.com", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount }),
