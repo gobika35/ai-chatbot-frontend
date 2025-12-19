@@ -3,16 +3,19 @@
 export default function Pricing() {
 
   const pay = async (amount) => {
-    const res = await fetch("https://ai-chatbot-backend-v82w.onrender.com", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount }),
-    });
+    const res = await fetch(
+      "https://ai-chatbot-backend-v82w.onrender.com/create-order",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount }),
+      }
+    );
 
     const order = await res.json();
 
     const options = {
-      key: "rzp_test_Rt9ASEUmtp3QJ3", // same as backend
+      key: "rzp_test_Rt9ASEUmtp3QJ3",
       amount: order.amount,
       currency: "INR",
       order_id: order.id,
@@ -20,11 +23,11 @@ export default function Pricing() {
       description: "One-time chatbot setup",
       handler: function () {
         alert("Payment successful. Please fill the form below.");
-        document.getElementById("get-started-form").scrollIntoView({
-          behavior: "smooth"
-        });
+        document
+          .getElementById("get-started-form")
+          .scrollIntoView({ behavior: "smooth" });
       },
-      theme: { color: "#000000" }
+      theme: { color: "#000000" },
     };
 
     const rzp = new window.Razorpay(options);
@@ -45,7 +48,7 @@ export default function Pricing() {
 
         <div className="mt-16 grid gap-8 md:grid-cols-2">
 
-          {/* Standard */}
+          {/* Standard Plan */}
           <div className="bg-[#141414] border border-[#2A2A2A] rounded-lg p-8">
             <h3 className="text-xl font-medium">
               Standard Chatbot
@@ -68,13 +71,13 @@ export default function Pricing() {
 
             <button
               onClick={() => pay(4999)}
-              className="mt-8 w-full px-6 py-3 bg-white text-black rounded-md hover:bg-[#E5E5E5]"
+              className="mt-8 w-full px-6 py-3 bg-white text-black font-medium rounded-md hover:bg-[#E5E5E5] transition"
             >
               Get Started
             </button>
           </div>
 
-          {/* Custom */}
+          {/* Custom Plan */}
           <div className="bg-[#141414] border border-[#2A2A2A] rounded-lg p-8">
             <h3 className="text-xl font-medium">
               Custom Design Chatbot
@@ -97,7 +100,7 @@ export default function Pricing() {
 
             <button
               onClick={() => pay(5999)}
-              className="mt-8 w-full px-6 py-3 border border-[#2A2A2A] rounded-md hover:bg-[#1F1F1F]"
+              className="mt-8 w-full px-6 py-3 border border-[#2A2A2A] rounded-md hover:bg-[#1F1F1F] transition"
             >
               Get Started
             </button>
