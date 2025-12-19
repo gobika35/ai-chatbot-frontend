@@ -11,9 +11,17 @@ export default function Home() {
   const [hours, setHours] = useState("");
   const [website, setWebsite] = useState("");
   const [phone, setPhone] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    if (loading) return;
+
+    if (!businessName || !businessType || !services || !phone) {
+      alert("Please fill all required fields");
+      return;
+    }
+
+    setLoading(true);
 
     const payload = {
       plan,
@@ -39,6 +47,7 @@ export default function Home() {
 
       if (!data.orderId) {
         alert("Payment initialization failed");
+        setLoading(false);
         return;
       }
 
@@ -61,6 +70,8 @@ export default function Home() {
       rzp.open();
     } catch (err) {
       alert("Server error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -118,26 +129,23 @@ export default function Home() {
         <section style={styles.section}>
           <h2>Get your chatbot</h2>
 
-          <form onSubmit={handleSubmit} style={styles.form}>
+          <div style={styles.form}>
             <input
               placeholder="Business name"
               value={businessName}
               onChange={(e) => setBusinessName(e.target.value)}
-              required
             />
 
             <input
               placeholder="Business type"
               value={businessType}
               onChange={(e) => setBusinessType(e.target.value)}
-              required
             />
 
             <textarea
               placeholder="Services you provide"
               value={services}
               onChange={(e) => setServices(e.target.value)}
-              required
             />
 
             <input
@@ -156,13 +164,17 @@ export default function Home() {
               placeholder="Contact number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              required
             />
 
-            <button type="submit" style={styles.button}>
-              Pay & Get Chatbot
+            <button
+              type="button"
+              style={styles.button}
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? "Processing..." : "Pay & Get Chatbot"}
             </button>
-          </form>
+          </div>
         </section>
 
         {/* FOOTER */}
