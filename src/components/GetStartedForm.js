@@ -4,8 +4,6 @@ import { useState } from "react";
 
 export default function GetStartedForm() {
   const [paid, setPaid] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   const [form, setForm] = useState({
     business_name: "",
     business_type: "",
@@ -19,9 +17,7 @@ export default function GetStartedForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const submitForm = async () => {
-    setLoading(true);
-
+  const handleSubmit = async () => {
     const res = await fetch(
       process.env.NEXT_PUBLIC_BACKEND_URL + "/create-chatbot",
       {
@@ -32,9 +28,7 @@ export default function GetStartedForm() {
     );
 
     const data = await res.json();
-    setLoading(false);
-
-    alert(`Your chatbot is ready:\n\n${data.chatbot_url}`);
+    alert(`Your chatbot is ready:\n${data.chatbot_url}`);
   };
 
   return (
@@ -50,7 +44,7 @@ export default function GetStartedForm() {
 
         {!paid && (
           <p className="mt-6 text-center text-[#B3B3B3]">
-            Complete payment to unlock the form
+            Please complete payment to unlock the form
           </p>
         )}
 
@@ -59,36 +53,29 @@ export default function GetStartedForm() {
             !paid ? "opacity-40 pointer-events-none" : ""
           }`}
         >
-          <input name="business_name" onChange={handleChange}
-            placeholder="Business name"
+          <input name="business_name" onChange={handleChange} placeholder="Business name"
             className="w-full p-3 bg-[#141414] border border-[#2A2A2A] rounded-md" />
 
-          <input name="business_type" onChange={handleChange}
-            placeholder="Business type"
+          <input name="business_type" onChange={handleChange} placeholder="Business type"
             className="w-full p-3 bg-[#141414] border border-[#2A2A2A] rounded-md" />
 
-          <textarea name="services" onChange={handleChange}
-            placeholder="Services you provide"
+          <textarea name="services" onChange={handleChange} placeholder="Services"
             className="w-full p-3 bg-[#141414] border border-[#2A2A2A] rounded-md" />
 
-          <input name="hours" onChange={handleChange}
-            placeholder="Working hours"
+          <input name="hours" onChange={handleChange} placeholder="Working hours"
             className="w-full p-3 bg-[#141414] border border-[#2A2A2A] rounded-md" />
 
-          <input name="website" onChange={handleChange}
-            placeholder="Website (optional)"
+          <input name="website" onChange={handleChange} placeholder="Website (optional)"
             className="w-full p-3 bg-[#141414] border border-[#2A2A2A] rounded-md" />
 
-          <input name="contact" onChange={handleChange}
-            placeholder="Contact number"
+          <input name="contact" onChange={handleChange} placeholder="Contact number"
             className="w-full p-3 bg-[#141414] border border-[#2A2A2A] rounded-md" />
 
           <button
-            onClick={submitForm}
-            disabled={loading}
+            onClick={handleSubmit}
             className="w-full px-6 py-3 bg-white text-black rounded-md hover:bg-[#E5E5E5]"
           >
-            {loading ? "Creating chatbot..." : "Submit & Get Chatbot"}
+            Submit & Get Chatbot
           </button>
         </div>
 
